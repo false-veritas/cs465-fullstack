@@ -1,3 +1,9 @@
+/*
+
+FIXME: Delete function does not work. Can go to page to confirm, will not delete entry.
+
+*/
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { TripDataService } from '../services/trip-data.service';
@@ -9,6 +15,8 @@ import { TripDataService } from '../services/trip-data.service';
   styleUrls: ['./delete-trip.component.css']
 })
 export class DeleteTripComponent implements OnInit {
+
+  submitted = false;
 
   constructor(
     private router: Router,
@@ -24,12 +32,27 @@ export class DeleteTripComponent implements OnInit {
       return;
     }
 
-    console.log('DeleteTripComponent#onInit found tripCode ' + tripCode);
+    /*console.log('DeleteTripComponent#onInit found tripCode ' + tripCode);
 
     this.tripService.deleteTrip(tripCode)
       .then(data => {
         console.log(data);
-      })
+      })*/
   }
+
+  onSubmit() {
+
+    let tripCode = localStorage.getItem("tripCode");
+    this.submitted = true;
+
+    if(tripCode){
+      this.tripService.deleteTrip(tripCode)
+      .then( data => {
+        console.log(data);
+        this.router.navigate(['']);
+      });
+    } 
+  }
+  
 
 }
